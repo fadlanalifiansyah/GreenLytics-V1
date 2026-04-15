@@ -5,12 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8F1F3" tools:context=".ui.onboarding.SplashFragment">
+    android:background="@color/primary"
+    tools:context=".ui.onboarding.SplashFragment">
 
     <ImageView
         android:id="@+id/iv_splash_logo"
-        android:layout_width="120dp"  android:layout_height="120dp"
-        android:layout_marginTop="180dp" app:srcCompat="@drawable/" app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="220dp"
+        app:srcCompat="@drawable/logo_greenlytics"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,9 +22,12 @@
         android:id="@+id/tv_splash_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="GreenLytics"
-        android:textSize="36sp"      android:textStyle="bold"     android:textColor="#333333"  app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="36sp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_splash_logo" />
 
@@ -28,15 +35,21 @@
         android:id="@+id/tv_splash_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_medium"
         android:text="Lacak Jejak Karbonmu"
-        android:textSize="18sp"      android:textColor="#555555"  android:gravity="center"     app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_splash_title" />
 
     <View
         android:id="@+id/v_splash_loading_line"
-        android:layout_width="100dp"  android:layout_height="4dp"   android:layout_marginTop="48dp" android:background="#CCCCCC" app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="32dp"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_splash_subtitle" />
 
