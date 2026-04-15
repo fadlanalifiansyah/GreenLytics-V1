@@ -14,7 +14,7 @@ class InputFragment : Fragment() {
         fun newInstance() = InputFragment()
     }
 
-    private val viewModel: InputViewModel by viewModels()
+    private val viewModel: SharedInputViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
