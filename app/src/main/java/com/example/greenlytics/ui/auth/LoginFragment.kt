@@ -1,4 +1,4 @@
-package com.example.greenlytics.ui.input
+package com.example.greenlytics.ui.auth
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.greenlytics.R
 
-class InputFragment : Fragment() {
+class LoginFragment : Fragment() {
 
     companion object {
-        fun newInstance() = InputFragment()
+        fun newInstance() = LoginFragment()
     }
 
-    private val viewModel: SharedInputViewModel by viewModels()
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,6 @@ class InputFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_input, container, false)
+        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 }
