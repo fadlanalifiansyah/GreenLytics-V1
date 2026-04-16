@@ -16,6 +16,7 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.greenlytics.R
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
 
 class LoginFragment : Fragment() {
 
@@ -129,7 +131,7 @@ class LoginFragment : Fragment() {
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             Toast.makeText(requireContext(), "Selamat Datang, ${user.displayName}", Toast.LENGTH_SHORT).show()
-            // findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
         }
     }
 }
