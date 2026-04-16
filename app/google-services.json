@@ -12,7 +12,20 @@
           "package_name": "com.example.greenlytics"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "870840118377-b0cs0cudvn2q76m8sobejf41not4sqje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.greenlytics",
+            "certificate_hash": "1ccd250d221cd0cda64ad79ecef5d44db16a2c03"
+          }
+        },
+        {
+          "client_id": "870840118377-mmc68tlh2729kvtrhkv2gclbco283jfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBeCUsF9ElXboFiAlEDOIGRTotBzlT-EK8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870840118377-mmc68tlh2729kvtrhkv2gclbco283jfs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
