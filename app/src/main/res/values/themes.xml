@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.GreenLytics" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorSecondaryContainer">@color/secondary</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="CustomIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/secondary_transparent</item>
     </style>
 
     <style name="Theme.GreenLytics" parent="Base.Theme.GreenLytics" />

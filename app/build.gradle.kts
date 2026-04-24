@@ -8,6 +8,10 @@ android {
     namespace = "com.example.greenlytics"
     compileSdk = 36
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.greenlytics"
         minSdk = 24
@@ -28,9 +32,6 @@ android {
         debug {
             signingConfig = signingConfigs.getByName("debug")
         }
-    }
-
-    buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,6 +40,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
