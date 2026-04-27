@@ -1,12 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
-    // Add the Google services Gradle plugin
-    id("com.google.gms.google-services")
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
     namespace = "com.example.greenlytics"
-    compileSdk = 36
+    compileSdk = 35
+
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
         applicationId = "com.example.greenlytics"
@@ -20,7 +25,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            storeFile = file("debug.keystore") // Menggunakan kunci yang ada di folder app
+            storeFile = file("debug.keystore")
         }
     }
 
@@ -28,9 +33,6 @@ android {
         debug {
             signingConfig = signingConfigs.getByName("debug")
         }
-    }
-
-    buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,9 +41,14 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
@@ -57,15 +64,24 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
-    implementation("com.google.firebase:firebase-auth")
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    val room_version = "2.6.1" // --- ROOM DATABASE DENGAN KSP ---
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
+    ksp("androidx.room:room-compiler:$room_version")     // KITA GUNAKAN PERINTAH KSP UNTUK MENCETAK DATABASE
 }
