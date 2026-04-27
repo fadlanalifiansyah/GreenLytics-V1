@@ -27,7 +27,6 @@ class ProgressFragment : Fragment() {
         val chart = view.findViewById<CombinedChart>(R.id.combinedChart)
 
         if (chart != null) {
-            // TEST: Jika kode ini jalan, tulisan di layar akan berubah
             chart.setNoDataText("Sedang memuat grafik...")
             setupMyChart(chart)
         }
@@ -36,7 +35,6 @@ class ProgressFragment : Fragment() {
     private fun setupMyChart(chart: CombinedChart) {
         val days = arrayOf("Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min")
 
-        // 1. Data Batang (Hijau)
         val barEntries = ArrayList<BarEntry>()
         barEntries.add(BarEntry(0f, 30f))
         barEntries.add(BarEntry(1f, 45f))
@@ -48,7 +46,6 @@ class ProgressFragment : Fragment() {
         barDataSet.color = Color.parseColor("#81C784")
         barDataSet.setDrawValues(false)
 
-        // 2. Data Garis (Biru)
         val lineEntries = ArrayList<Entry>()
         lineEntries.add(Entry(0f, 40f))
         lineEntries.add(Entry(1f, 55f))
@@ -63,15 +60,12 @@ class ProgressFragment : Fragment() {
         lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
         lineDataSet.setDrawValues(false)
 
-        // 3. Gabungkan Data
         val data = CombinedData()
         data.setData(BarData(barDataSet))
         data.setData(LineData(lineDataSet))
 
-        // 4. Masukkan ke Chart & Refresh
         chart.data = data
 
-        // --- PENGATURAN SUMBU ---
         chart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = IndexAxisValueFormatter(days)
@@ -83,7 +77,6 @@ class ProgressFragment : Fragment() {
         chart.description.isEnabled = false
         chart.legend.isEnabled = false
 
-        // INI PENTING: Memaksa gambar muncul
         chart.notifyDataSetChanged()
         chart.invalidate()
     }
