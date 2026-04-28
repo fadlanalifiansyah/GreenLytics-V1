@@ -1,4 +1,4 @@
-package com.example.greenlytics.ui.input.category
+package com.example.greenlytics.ui.tips
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.greenlytics.R
 
-class FoodFragment : Fragment() {
+class TipsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = FoodFragment()
+        fun newInstance() = TipsFragment()
     }
 
-    private val viewModel: FoodViewModel by viewModels()
+    private val viewModel: TipsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,6 @@ class FoodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_food, container, false)
+        return inflater.inflate(R.layout.fragment_tips, container, false)
     }
 }
