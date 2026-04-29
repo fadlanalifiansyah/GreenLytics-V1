@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -84,4 +85,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
 
     ksp("androidx.room:room-compiler:$room_version")     // KITA GUNAKAN PERINTAH KSP UNTUK MENCETAK DATABASE
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }
