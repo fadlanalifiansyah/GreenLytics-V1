@@ -517,7 +517,7 @@
                         android:layout_toEndOf="@id/wrap_contact"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        text="Hubungi Kami"
+                        android:text="Hubungi Kami"
                         android:textColor="@color/black"
                         android:textSize="14sp"/>
                     <ImageView
