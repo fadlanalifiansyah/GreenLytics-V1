@@ -156,21 +156,23 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <FrameLayout
                         android:layout_width="40dp"
                         android:layout_height="40dp">
                         <View
+                            android:id="@+id/bg_badge1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_circle_glass"
-                            android:backgroundTint="#E3F2FD"/>
+                            android:backgroundTint="#EEEEEE"/>
                         <ImageView
+                            android:id="@+id/iv_badge1"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_badge1" app:tint="#1976D2" /> </FrameLayout>
-
+                            app:srcCompat="@drawable/ic_badge1"
+                            app:tint="#9E9E9E" />
+                    </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,7 +182,6 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -198,21 +199,23 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <FrameLayout
                         android:layout_width="40dp"
                         android:layout_height="40dp">
                         <View
+                            android:id="@+id/bg_badge2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_circle_glass"
-                            android:backgroundTint="#FFF3E0"/>
+                            android:backgroundTint="#EEEEEE"/>
                         <ImageView
+                            android:id="@+id/iv_badge2"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_badge2" app:tint="@color/warning" /> </FrameLayout>
-
+                            app:srcCompat="@drawable/ic_badge2"
+                            app:tint="#9E9E9E" />
+                    </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -222,7 +225,6 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -240,21 +242,23 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <FrameLayout
                         android:layout_width="40dp"
                         android:layout_height="40dp">
                         <View
+                            android:id="@+id/bg_badge3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_circle_glass"
-                            android:backgroundTint="#E0F2F1"/>
+                            android:backgroundTint="#EEEEEE"/>
                         <ImageView
+                            android:id="@+id/iv_badge3"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_badge3" app:tint="#00796B" /> </FrameLayout>
-
+                            app:srcCompat="@drawable/ic_badge3"
+                            app:tint="#9E9E9E" />
+                    </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -264,7 +268,6 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -282,21 +285,23 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <FrameLayout
                         android:layout_width="40dp"
                         android:layout_height="40dp">
                         <View
+                            android:id="@+id/bg_badge4"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_circle_glass"
-                            android:backgroundTint="#F3E5F5"/>
+                            android:backgroundTint="#EEEEEE"/>
                         <ImageView
+                            android:id="@+id/iv_badge4"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_badge4" app:tint="#7B1FA2" /> </FrameLayout>
-
+                            app:srcCompat="@drawable/ic_badge4"
+                            app:tint="#9E9E9E" />
+                    </FrameLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -306,7 +311,6 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

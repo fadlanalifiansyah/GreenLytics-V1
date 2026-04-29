@@ -1,31 +1,51 @@
 package com.example.greenlytics.ui.input
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.greenlytics.R
+import androidx.fragment.app.Fragment
+import com.example.greenlytics.databinding.FragmentInputBinding
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InputFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = InputFragment()
-    }
-
-    private val viewModel: SharedInputViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private var _binding: FragmentInputBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_input, container, false)
+        // Menggunakan ViewBinding untuk memanggil ID di XML
+        _binding = FragmentInputBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 1. Inisialisasi Adapter yang sudah kamu buat
+        val adapter = InputPagerAdapter(this)
+        binding.viewPager.adapter = adapter
+
+        // 2. Judul untuk masing-masing Tab
+        val tabTitles = arrayOf("Transport", "Listrik", "Belanja", "Sampah")
+
+        // 3. Menghubungkan TabLayout dan ViewPager2 (TabLayoutMediator)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
+
+        // Mematikan fitur geser (User harus klik tab) jika ingin lebih stabil
+        // binding.viewPager.isUserInputEnabled = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
