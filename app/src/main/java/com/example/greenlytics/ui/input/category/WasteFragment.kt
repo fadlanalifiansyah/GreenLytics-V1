@@ -7,6 +7,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.greenlytics.utils.LocationHelper
+import kotlinx.coroutines.launch
 import com.example.greenlytics.R
 import com.example.greenlytics.databinding.FragmentWasteBinding
 import com.example.greenlytics.ui.input.SharedInputViewModel
@@ -46,13 +49,24 @@ class WasteFragment : Fragment(R.layout.fragment_waste) {
         binding.btnSaveWaste.setOnClickListener {
             val weight = binding.etBerat.text.toString().toDoubleOrNull() ?: 0.0
             if (weight > 0) {
-                val type = viewModel.selectedWasteType.value ?: CarbonCalculator.WasteType.ORGANIK
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val locationHelper = LocationHelper(requireContext())
+                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    val locDetail = locationHelper.getCurrentLocation()
+                    val type = viewModel.selectedWasteType.value ?: CarbonCalculator.WasteType.ORGANIK
 
-                // Simpan ke database
-                sharedViewModel.saveWaste(weight, type)
+                    // Simpan ke database
+                    sharedViewModel.saveWaste(
+                        weight = weight,
+                        type = type,
+                        cityName = locDetail.cityName,
+                        lat = locDetail.lat,
+                        lon = locDetail.lon
+                    )
 
-                Toast.makeText(context, "Aktivitas sampah berhasil disimpan!", Toast.LENGTH_SHORT).show()
-                binding.etBerat.text?.clear()
+                    Toast.makeText(context, "Aktivitas sampah berhasil disimpan!", Toast.LENGTH_SHORT).show()
+                    binding.etBerat.text?.clear()
+                }
             } else {
                 Toast.makeText(context, "Masukkan berat sampah!", Toast.LENGTH_SHORT).show()
             }

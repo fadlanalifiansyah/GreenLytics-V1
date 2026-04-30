@@ -9,7 +9,7 @@ import com.example.greenlytics.R
 import com.example.greenlytics.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint // <-- Ini import untuk stiker Hilt
 
-@AndroidEntryPoint // <-- STIKER IZIN HILT DITEMPEL DI SINI
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

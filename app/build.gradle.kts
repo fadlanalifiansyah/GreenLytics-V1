@@ -70,21 +70,22 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
-
+    implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    val room_version = "2.6.1" // --- ROOM DATABASE DENGAN KSP ---
+    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
 
-    ksp("androidx.room:room-compiler:$room_version")     // KITA GUNAKAN PERINTAH KSP UNTUK MENCETAK DATABASE
+    ksp("androidx.room:room-compiler:$room_version")
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

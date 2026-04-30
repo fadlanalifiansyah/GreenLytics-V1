@@ -14,47 +14,40 @@ class SharedInputViewModel @Inject constructor(
     private val repository: EmissionRepo
 ) : ViewModel() {
 
-    /**
-     * Fungsi Simpan untuk Transportasi
-     */
-    fun saveTransport(distance: Double, type: CarbonCalculator.VehicleType, passengers: Int = 1) {
+    /* Fungsi Simpan untuk Transportasi */
+    fun saveTransport(distance: Double, type: CarbonCalculator.VehicleType, passengers: Int = 1, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
         viewModelScope.launch {
             val result = CarbonCalculator.calculateTransport(distance, type, passengers)
             // Kategori: Transportasi, Sub: Jenis Kendaraan (Motor/Mobil/Bus), dst.
-            insertToDatabase("Transportasi", type.name, distance, "km", result)
+            insertToDatabase("Transportasi", type.name, distance, "km", result, cityName, lat, lon)
         }
     }
 
-    /**
-     * Fungsi Simpan untuk Listrik (KWh)
-     */
-    /**
-     * Fungsi Simpan untuk Listrik (Menerima hasil dari ElectricViewModel)
-     */
-    fun saveElectricity(inputValue: Double, unit: String, carbonResult: Double) {
+    /* Fungsi Simpan untuk Listrik (Menerima hasil dari ElectricViewModel */
+    fun saveElectricity(inputValue: Double, unit: String, carbonResult: Double, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
         viewModelScope.launch {
             // Langsung masukkan carbonResult ke database, tidak perlu dihitung ulang di sini
-            insertToDatabase("Listrik", "Rumah Tangga", inputValue, unit, carbonResult)
+            insertToDatabase("Listrik", "Rumah Tangga", inputValue, unit, carbonResult, cityName, lat, lon)
         }
     }
 
     /**
      * Fungsi Simpan untuk Sampah
      */
-    fun saveWaste(weight: Double, type: CarbonCalculator.WasteType) {
+    fun saveWaste(weight: Double, type: CarbonCalculator.WasteType, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
         viewModelScope.launch {
             val result = CarbonCalculator.calculateWaste(weight, type)
-            insertToDatabase("Sampah", type.name, weight, "kg", result)
+            insertToDatabase("Sampah", type.name, weight, "kg", result, cityName, lat, lon)
         }
     }
 
     /**
      * Fungsi Simpan untuk Belanja (Spend-based)
      */
-    fun saveShopping(spendRp: Double, category: CarbonCalculator.ShoppingCategory) {
+    fun saveShopping(spendRp: Double, category: CarbonCalculator.ShoppingCategory, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
         viewModelScope.launch {
             val result = CarbonCalculator.calculateShopping(spendRp, category)
-            insertToDatabase("Belanja", category.name, spendRp, "IDR", result)
+            insertToDatabase("Belanja", category.name, spendRp, "IDR", result, cityName, lat, lon)
         }
     }
 
@@ -66,7 +59,10 @@ class SharedInputViewModel @Inject constructor(
         subCat: String,
         valInput: Double,
         unit: String,
-        carbon: Double
+        carbon: Double,
+        cityName: String? = null,
+        lat: Double? = null,
+        lon: Double? = null
     ) {
         val newEmission = EmissionEntity(
             kategori = cat,
@@ -75,9 +71,11 @@ class SharedInputViewModel @Inject constructor(
             satuan = unit,
             emisiKarbon = carbon,
             tanggalInput = System.currentTimeMillis(),
-            latitude = null,  // Opsional: bisa diisi jika fitur GPS aktif
-            longitude = null, // Opsional: bisa diisi jika fitur GPS aktif
-            isSynced = false
+            latitude = lat,
+            longitude = lon,
+            cityName = cityName,
+            isSynced = false,
+            userId = ""
         )
         repository.insertEmission(newEmission)
     }

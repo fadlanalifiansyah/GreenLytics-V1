@@ -5,5 +5,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class GreenLyticsApp : Application() {
-    // Kosongkan saja isinya, @HiltAndroidApp ini adalah "saklar" utamanya
 }

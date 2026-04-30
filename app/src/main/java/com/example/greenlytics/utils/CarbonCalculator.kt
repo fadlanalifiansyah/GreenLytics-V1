@@ -66,7 +66,7 @@ object CarbonCalculator {
     // ==========================================
     // 3. BELANJA (Spend-Based Method USEEIO)
     // ==========================================
-    // Asumsi kurs USD ke IDR tahun 2024 (Bisa disesuaikan jika perlu)
+    // Asumsi kurs USD ke IDR tahun 2024
     private const val KURS_USD_TO_IDR = 15500.0
 
     enum class ShoppingCategory(val factorUsd: Double) {

@@ -7,6 +7,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.greenlytics.utils.LocationHelper
+import kotlinx.coroutines.launch
 import com.example.greenlytics.R
 import com.example.greenlytics.databinding.FragmentShoppingBinding
 import com.example.greenlytics.ui.input.SharedInputViewModel
@@ -49,13 +52,24 @@ class ShoppingFragment : Fragment(R.layout.fragment_shopping) {
         binding.btnSaveShopping.setOnClickListener {
             val amount = binding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
             if (amount > 0) {
-                val category = viewModel.selectedCategory.value ?: CarbonCalculator.ShoppingCategory.MAKANAN_MINUMAN
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val locationHelper = LocationHelper(requireContext())
+                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    val locDetail = locationHelper.getCurrentLocation()
+                    val category = viewModel.selectedCategory.value ?: CarbonCalculator.ShoppingCategory.MAKANAN_MINUMAN
 
-                // Simpan ke database melalui SharedViewModel
-                sharedViewModel.saveShopping(amount, category)
+                    // Simpan ke database melalui SharedViewModel
+                    sharedViewModel.saveShopping(
+                        spendRp = amount,
+                        category = category,
+                        cityName = locDetail.cityName,
+                        lat = locDetail.lat,
+                        lon = locDetail.lon
+                    )
 
-                Toast.makeText(context, "Aktivitas belanja berhasil disimpan!", Toast.LENGTH_SHORT).show()
-                binding.etAmount.text?.clear()
+                    Toast.makeText(context, "Aktivitas belanja berhasil disimpan!", Toast.LENGTH_SHORT).show()
+                    binding.etAmount.text?.clear()
+                }
             } else {
                 Toast.makeText(context, "Masukkan nominal belanja!", Toast.LENGTH_SHORT).show()
             }

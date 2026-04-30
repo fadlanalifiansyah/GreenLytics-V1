@@ -7,6 +7,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.greenlytics.utils.LocationHelper
+import kotlinx.coroutines.launch
 import com.example.greenlytics.R
 import com.example.greenlytics.databinding.FragmentElectricBinding
 import com.example.greenlytics.ui.input.SharedInputViewModel
@@ -59,11 +62,24 @@ class ElectricFragment : Fragment(R.layout.fragment_electric) {
             val unit = if (isRupiah) "IDR" else "kWh"
 
             if (input > 0) {
-                // 3. Simpan ke database melalui SharedViewModel dengan data yang lengkap
-                sharedViewModel.saveElectricity(input, unit, carbonResult)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val locationHelper = LocationHelper(requireContext())
+                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    val locDetail = locationHelper.getCurrentLocation()
 
-                Toast.makeText(context, "Data Listrik Berhasil Disimpan!", Toast.LENGTH_SHORT).show()
-                binding.etListrik.text?.clear()
+                    // 3. Simpan ke database melalui SharedViewModel dengan data yang lengkap
+                    sharedViewModel.saveElectricity(
+                        inputValue = input,
+                        unit = unit,
+                        carbonResult = carbonResult,
+                        cityName = locDetail.cityName,
+                        lat = locDetail.lat,
+                        lon = locDetail.lon
+                    )
+
+                    Toast.makeText(context, "Data Listrik Berhasil Disimpan!", Toast.LENGTH_SHORT).show()
+                    binding.etListrik.text?.clear()
+                }
             } else {
                 Toast.makeText(context, "Masukkan nilai pemakaian!", Toast.LENGTH_SHORT).show()
             }

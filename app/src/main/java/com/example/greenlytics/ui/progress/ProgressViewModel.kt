@@ -111,7 +111,6 @@ class ProgressViewModel @Inject constructor(
         // Mulai cek mundur dari hari aktivitas terakhir
         val checkCalendar = Calendar.getInstance()
         if (sortedDays.first() == yesterdayStr) {
-            // Kalau aktivitas terakhirnya kemarin, kita mulai cek mundurnya dari kemarin
             checkCalendar.add(Calendar.DAY_OF_YEAR, -1)
         }
 
@@ -119,7 +118,6 @@ class ProgressViewModel @Inject constructor(
             val targetStr = sdf.format(checkCalendar.time)
 
             if (dayStr == targetStr) {
-                // Tanggal cocok! Tambah streak, lalu mundur 1 hari untuk ngecek tanggal sebelumnya
                 currentStreak++
                 checkCalendar.add(Calendar.DAY_OF_YEAR, -1)
             } else {

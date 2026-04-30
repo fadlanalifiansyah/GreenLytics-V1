@@ -9,9 +9,13 @@ import androidx.room.Update
 @Dao
 interface EmissionDao {
 
-    // 1. Memasukkan aktivitas emisi baru ke dalam database lokal
+    // Untuk menyimpan 1 data
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEmission(emission: EmissionEntity)
+
+    // 1. Memasukkan BANYAK aktivitas emisi sekaligus (Untuk Tarik Data dari Firebase)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllEmissions(emissions: List<EmissionEntity>)
 
     // 2. Mengambil semua riwayat aktivitas, diurutkan dari yang paling baru (DESC)
     @Query("SELECT * FROM emission_table ORDER BY tanggalInput DESC")
@@ -38,7 +42,6 @@ interface EmissionDao {
     suspend fun getTotalActivitiesCount(): Int
 
     // 8. Menjumlahkan emisi khusus di rentang waktu tertentu (Untuk profil: "Total emisi bulan ini")
-    // Nanti dari Kotlin-nya, kita kirimkan angka Long untuk hari pertama dan hari terakhir bulan ini
     @Query("SELECT SUM(emisiKarbon) FROM emission_table WHERE tanggalInput BETWEEN :startTime AND :endTime")
     suspend fun getEmissionsBetweenDates(startTime: Long, endTime: Long): Double?
 

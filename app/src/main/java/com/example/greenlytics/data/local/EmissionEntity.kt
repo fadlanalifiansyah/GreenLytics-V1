@@ -15,5 +15,7 @@ data class EmissionEntity(
     val tanggalInput: Long,
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val isSynced: Boolean = false
+    val cityName: String? = null,
+    val isSynced: Boolean = false,
+    val userId: String = ""
 )

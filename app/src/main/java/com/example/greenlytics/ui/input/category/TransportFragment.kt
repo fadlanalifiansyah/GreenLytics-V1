@@ -11,6 +11,9 @@ import com.example.greenlytics.R
 import com.example.greenlytics.databinding.FragmentTransportBinding
 import com.example.greenlytics.ui.input.SharedInputViewModel
 import com.example.greenlytics.utils.CarbonCalculator
+import androidx.lifecycle.lifecycleScope
+import com.example.greenlytics.utils.LocationHelper
+import kotlinx.coroutines.launch
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,13 +56,28 @@ class TransportFragment : Fragment(R.layout.fragment_transport) {
         binding.btnSaveTransport.setOnClickListener {
             val distance = binding.etDistance.text.toString().toDoubleOrNull() ?: 0.0
             if (distance > 0) {
-                val vehicle = viewModel.selectedVehicle.value ?: CarbonCalculator.VehicleType.MOBIL
-                val passengers = binding.sliderPassenger.value.toInt()
+                // 🔥 BUNGKUS DENGAN COROUTINE KARENA MENCARI LOKASI BUTUH WAKTU
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val locationHelper = LocationHelper(requireContext())
+                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    val locDetail = locationHelper.getCurrentLocation()
 
-                sharedViewModel.saveTransport(distance, vehicle, passengers)
+                    val vehicle = viewModel.selectedVehicle.value ?: CarbonCalculator.VehicleType.MOBIL
+                    val passengers = binding.sliderPassenger.value.toInt()
 
-                Toast.makeText(context, "Data berhasil disimpan!", Toast.LENGTH_SHORT).show()
-                binding.etDistance.text?.clear()
+                    // 🔥 SISIPKAN cityName, lat, lon
+                    sharedViewModel.saveTransport(
+                        distance = distance,
+                        type = vehicle,
+                        passengers = passengers,
+                        cityName = locDetail.cityName,
+                        lat = locDetail.lat,
+                        lon = locDetail.lon
+                    )
+
+                    Toast.makeText(context, "Data berhasil disimpan!", Toast.LENGTH_SHORT).show()
+                    binding.etDistance.text?.clear()
+                }
             } else {
                 Toast.makeText(context, "Masukkan jarak tempuh!", Toast.LENGTH_SHORT).show()
             }
@@ -84,6 +102,7 @@ class TransportFragment : Fragment(R.layout.fragment_transport) {
         val passengers = binding.sliderPassenger.value.toInt()
         viewModel.updateEstimation(distance, passengers)
     }
+
     private fun updateCardUI(selected: CarbonCalculator.VehicleType) {
         val lightGreen = android.graphics.Color.parseColor("#E8F5E9")
         val white = android.graphics.Color.WHITE
