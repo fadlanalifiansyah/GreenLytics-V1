@@ -116,7 +116,7 @@
                     app:layout_constraintEnd_toStartOf="@id/tv_streak_target">
 
                     <ProgressBar
-                        android:id="@+id/progressBarEmission"
+                        android:id="@+id/pbStreak"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
