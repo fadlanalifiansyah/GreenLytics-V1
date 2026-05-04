@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#2D6A4F</color>
     <color name="secondary">#74C69D</color>
+    <color name="green_gradient">#2E7D32</color>
     <color name="background">#F8FBF9</color>
     <color name="surface">#FFFFFF</color>
     <color name="error">#D62828</color>
