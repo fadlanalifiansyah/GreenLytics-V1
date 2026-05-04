@@ -361,7 +361,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:checked="true"
-                        app:trackTint="@color/green_gradient"
+                        app:trackTint="@color/primary"
                         app:thumbTint="@android:color/white"
                         app:useMaterialThemeColors="false"/>
                 </RelativeLayout>

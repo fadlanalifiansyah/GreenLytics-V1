@@ -48,7 +48,7 @@
             android:layout_marginTop="24dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/green_gradient"
+            app:cardBackgroundColor="@color/primary"
             app:layout_constraintTop_toBottomOf="@id/tv_progress_subheader"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -69,8 +69,8 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     app:srcCompat="@drawable/ic_fire"
                     app:tint="@color/warning"
                     app:layout_constraintBottom_toBottomOf="@id/v_streak_icon_bg"
@@ -102,18 +102,18 @@
                     app:layout_constraintStart_toEndOf="@id/v_streak_icon_bg"
                     app:layout_constraintTop_toBottomOf="@id/tv_streak_title" />
 
-
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/cv_progress_bar_container"
+                    android:layout_width="0dp"
                     android:layout_height="10dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="#33FFFFFF"
                     app:layout_constraintTop_toBottomOf="@+id/tv_streak_subtitle"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintEnd_toStartOf="@id/tv_streak_target">
 
                     <ProgressBar
                         android:id="@+id/progressBarEmission"
@@ -126,20 +126,19 @@
                         android:scaleY="10" />
                 </com.google.android.material.card.MaterialCardView>
 
-
                 <TextView
                     android:id="@+id/tv_streak_target"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
                     android:text="7/30 hari"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="@id/cv_progress_bar_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cv_progress_bar_container" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -170,6 +169,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <!-- Badge 1 -->
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="120dp"
@@ -213,6 +213,7 @@
                         android:fontFamily="@font/poppins_medium"/>
                 </LinearLayout>
 
+                <!-- Badge 2 -->
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="120dp"
@@ -256,6 +257,7 @@
                         android:fontFamily="@font/poppins_medium"/>
                 </LinearLayout>
 
+                <!-- Badge 3 -->
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="120dp"
@@ -299,6 +301,7 @@
                         android:fontFamily="@font/poppins_medium"/>
                 </LinearLayout>
 
+                <!-- Badge 4 -->
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="120dp"
@@ -354,7 +357,8 @@
             android:background="@drawable/bg_card_white_outline"
             android:padding="20dp"
             app:layout_constraintTop_toBottomOf="@id/hsv_badges"
-            tools:ignore="ExtraText">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:id="@+id/tv_chart_title"
@@ -387,9 +391,7 @@
                 android:id="@+id/combinedChart"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:minHeight="250dp"
                 android:layout_marginTop="16dp"
-                android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@id/tv_chart_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
