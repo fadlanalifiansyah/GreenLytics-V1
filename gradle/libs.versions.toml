@@ -1,7 +1,7 @@
 [versions]
-agp = "8.13.2"
-kotlin = "1.9.22"
-ksp = "1.9.22-1.0.17"
+agp = "8.7.3"
+kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -20,7 +20,7 @@ firebaseAuth = "23.1.0"
 firebaseFirestore = "25.1.1"
 firebaseStorage = "21.0.1"
 googleServices = "4.4.2"
-hilt = "2.51.1"
+hilt = "2.55"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
