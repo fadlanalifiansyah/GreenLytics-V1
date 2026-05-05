@@ -64,7 +64,7 @@ class ElectricFragment : Fragment(R.layout.fragment_electric) {
             if (input > 0) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     val locationHelper = LocationHelper(requireContext())
-                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    // Mengambil paket komplit (Kota, Lat, Lon)
                     val locDetail = locationHelper.getCurrentLocation()
 
                     // 3. Simpan ke database melalui SharedViewModel dengan data yang lengkap

@@ -12,7 +12,6 @@ import com.example.greenlytics.R
 
 class WelcomeFragment : Fragment() {
 
-    // Anotasi ini ditambahkan agar peringatan kuning "unused" hilang
     @Suppress("unused")
     private val viewModel: WelcomeViewModel by viewModels()
 

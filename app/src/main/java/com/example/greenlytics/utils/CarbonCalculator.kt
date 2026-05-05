@@ -2,7 +2,6 @@ package com.example.greenlytics.utils
 
 /**
  * Mesin Utama Perhitungan Emisi Karbon GreenLytics.
- * Berdasarkan dokumen proposal (ESDM, IPCC, USEEIO, NAICS).
  * Satuan hasil akhir adalah kg CO2e (Kilogram Karbon Dioksida Ekuivalen).
  */
 object CarbonCalculator {
@@ -11,32 +10,26 @@ object CarbonCalculator {
     // 1. TRANSPORTASI
     // ==========================================
     enum class VehicleType(val factor: Double) {
-        MOBIL(0.229),
-        MOTOR(0.038),
-        BUS(0.527), // Ingat: Bus harus dibagi jumlah penumpang
-        KRL(0.0152) // KRL sudah per penumpang
+        MOBIL(0.170), // Which form of transport has the smallest carbon footprint? (2023) https://ourworldindata.org/travel-carbon-footprint
+        MOTOR(0.114), // Which form of transport has the smallest carbon footprint? (2023) https://ourworldindata.org/travel-carbon-footprint
+        BUS(0.097), // Which form of transport has the smallest carbon footprint? (2023) https://ourworldindata.org/travel-carbon-footprint
+        KRL(0.034) // RISET BRIN: KAI COMMUTER LINE https://kci.id/informasi-publik/berita/riset-brin-commuter-line-ramah-lingkungan-jejak-karbon-lebih-rendah-dukung-pelestarian-lingkungan-kai-commuter-tegaskan-komitmen-hadirkan-transportasi-yang-ramah-lingkungan
     }
 
     /**
      * Hitung emisi transportasi per kilometer.
-     * Khusus untuk Bus, masukkan jumlah penumpang agar emisi dibagi rata.
      */
-    fun calculateTransport(distanceKm: Double, type: VehicleType, passengerCount: Int = 1): Double {
-        return if (type == VehicleType.BUS) {
-            // Bus: Jarak * (0.527 / jumlah penumpang)
-            distanceKm * (type.factor / passengerCount.coerceAtLeast(1))
-        } else {
-            distanceKm * type.factor
-        }
+    fun calculateTransport(distanceKm: Double, type: VehicleType): Double {
+        return distanceKm * type.factor
     }
 
 
     // ==========================================
-    // 2. LISTRIK (GEF OM JAMALI = 0.80 kg CO2/kWh)
+    // 2. LISTRIK (GEF CM JAMALI = 0.87 kg CO2/kWh) https://gatrik.esdm.go.id/assets/uploads/download_index/files/96d7c-nilai-fe-grk-sistem-ketenagalistrikan-tahun-2019.pdf
     // ==========================================
-    private const val EF_ELECTRICITY = 0.80
+    private const val EF_ELECTRICITY = 0.87
 
-    enum class ElectricTariff(val ratePerKwh: Double, val label: String) {
+    enum class ElectricTariff(val ratePerKwh: Double, val label: String) { //Kategori harga mengambil dari data https://web.pln.co.id/statics/uploads/2026/01/202601-Tarif-Listrik.jpeg
         R1_900VA(1352.00, "R-1 (900 VA)"),
         R1_1300_2200VA(1444.70, "R-1 (1300-2200 VA)"),
         R2_3500_5500VA(1699.53, "R-2 (3500-5500 VA)")
@@ -62,34 +55,8 @@ object CarbonCalculator {
         return if (isMonthlyTagihan) totalEmisi / 30.0 else totalEmisi
     }
 
-
     // ==========================================
-    // 3. BELANJA (Spend-Based Method USEEIO)
-    // ==========================================
-    // Asumsi kurs USD ke IDR tahun 2024
-    private const val KURS_USD_TO_IDR = 15500.0
-
-    enum class ShoppingCategory(val factorUsd: Double) {
-        MAKANAN_MINUMAN(0.755),
-        FASHION(0.155),
-        ELEKTRONIK(0.078),
-        PERABOT(0.145),
-        KECANTIKAN(0.130),
-        HIBURAN(0.114)
-    }
-
-    /**
-     * Hitung emisi dari pengeluaran belanja (Rupiah).
-     * Otomatis dikonversi ke USD di dalam fungsi.
-     */
-    fun calculateShopping(spendRp: Double, category: ShoppingCategory): Double {
-        val spendUsd = spendRp / KURS_USD_TO_IDR
-        return spendUsd * category.factorUsd
-    }
-
-
-    // ==========================================
-    // 4. SAMPAH (IPCC First Order Decay)
+    // 4. SAMPAH (IPCC First Order Decay) https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/5_Volume5/IPCC_Waste_Model.xls
     // ==========================================
     enum class WasteType(val factor: Double) {
         ORGANIK(0.887),

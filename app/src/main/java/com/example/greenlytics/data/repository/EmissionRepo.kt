@@ -77,7 +77,7 @@ class EmissionRepo @Inject constructor(
             cityDocRef.set(updates, SetOptions.merge()).await()
         }
 
-        // Sebagai Brankas Pribadi (Personal Tracking)
+        // Sebagai Penyimpanan Pribadi
         val personalRef = firestore
             .collection("users").document(uid)
             .collection("my_emissions").document(emission.tanggalInput.toString())

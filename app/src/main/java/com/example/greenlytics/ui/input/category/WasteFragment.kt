@@ -51,7 +51,7 @@ class WasteFragment : Fragment(R.layout.fragment_waste) {
             if (weight > 0) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     val locationHelper = LocationHelper(requireContext())
-                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    // Mengambil paket komplit (Kota, Lat, Lon)
                     val locDetail = locationHelper.getCurrentLocation()
                     val type = viewModel.selectedWasteType.value ?: CarbonCalculator.WasteType.ORGANIK
 

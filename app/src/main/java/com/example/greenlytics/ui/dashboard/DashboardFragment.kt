@@ -108,12 +108,12 @@ class DashboardFragment : Fragment() {
             labels.add(data.first)
         }
 
-        // Setup Bar (Hijau)
+        // Setup Bar
         val barDataSet = BarDataSet(barEntries, "Emisi Karbon")
         barDataSet.color = Color.parseColor("#81C784")
         barDataSet.setDrawValues(false)
 
-        // Setup Line (Biru Melengkung)
+        // Setup Line
         val lineDataSet = com.github.mikephil.charting.data.LineDataSet(lineEntries, "Tren")
         lineDataSet.color = Color.parseColor("#64B5F6")
         lineDataSet.setCircleColor(Color.parseColor("#64B5F6"))

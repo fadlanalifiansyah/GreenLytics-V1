@@ -32,7 +32,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inisialisasi pendengar status
         setupObservers()
 
         view.findViewById<Button>(R.id.btn_google_login).setOnClickListener {

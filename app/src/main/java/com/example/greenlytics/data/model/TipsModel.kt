@@ -7,4 +7,6 @@ data class TipsModel(
     val judul: String,
     val deskripsi: String,
     val sumber: String,
+    val difficulty: String,
+    var isCompleted: Boolean = false // Tambahan untuk melacak status tombol
 )
