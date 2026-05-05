@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_btn_selesai"
+            android:background="@drawable/bg_btn_inactive"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
@@ -85,18 +85,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTipDescription">
 
+            <!-- TAMBAHKAN ID: ivCheckIcon -->
             <ImageView
+                android:id="@+id/ivCheckIcon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="6dp"
-                android:src="@android:drawable/checkbox_on_background"
-                app:tint="@color/primary" />
+                android:src="@drawable/ic_check_done"
+                app:tint="#9E9E9E" />
 
+            <!-- TAMBAHKAN ID: tvMarkDoneText -->
             <TextView
+                android:id="@+id/tvMarkDoneText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tandai Selesai"
-                android:textColor="@color/primary"
+                android:textColor="#9E9E9E"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>

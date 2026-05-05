@@ -7,5 +7,4 @@ data class TipsModel(
     val judul: String,
     val deskripsi: String,
     val sumber: String,
-    val difficulty: String // "Mudah", "Sedang", "Sulit"
 )
