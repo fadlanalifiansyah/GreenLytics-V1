@@ -360,13 +360,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:checked="true"
-                        app:trackTint="@color/primary"
-                        app:thumbTint="@android:color/white"
-                        app:useMaterialThemeColors="false"/>
+                        android:checked="true" />
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/btnTargetEmisi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
@@ -397,6 +395,7 @@
                             android:textColor="@color/black"
                             android:textSize="14sp"/>
                         <TextView
+                            android:id="@+id/tvTargetValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="8 kg CO2 per hari"
@@ -411,84 +410,7 @@
                         android:src="@drawable/ic_chevron_right" />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-                    <FrameLayout
-                        android:id="@+id/wrap_theme"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/bg_circle_avatar"
-                        android:backgroundTint="#F1F5F9">
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_palette" />
-                    </FrameLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/wrap_theme"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="16dp"
-                        android:text="Tema aplikasi"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_chevron_right" />
-                </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-                    <FrameLayout
-                        android:id="@+id/wrap_lang"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/bg_circle_avatar"
-                        android:backgroundTint="#F1F5F9">
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_language" />
-                    </FrameLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@id/wrap_lang"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bahasa"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Indonesia"
-                            android:textColor="#64748B"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_chevron_right" />
-                </RelativeLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -517,6 +439,7 @@
                 android:paddingBottom="8dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnAbout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
@@ -550,41 +473,10 @@
                         android:src="@drawable/ic_chevron_right" />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-                    <FrameLayout
-                        android:id="@+id/wrap_privacy"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/bg_circle_avatar"
-                        android:backgroundTint="#F1F5F9">
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_shield" />
-                    </FrameLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/wrap_privacy"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="16dp"
-                        android:text="Kebijakan Privasi"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"/>
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_chevron_right" />
-                </RelativeLayout>
+
 
                 <RelativeLayout
+                    android:id="@+id/btnContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">

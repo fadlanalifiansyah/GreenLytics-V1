@@ -204,13 +204,14 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="14dp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="3 hari"
                         android:textColor="#757575"
-                        android:textSize="9sp"
-                        android:fontFamily="@font/poppins_medium"/>
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <!-- Badge 2 -->
@@ -248,13 +249,14 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="14dp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="7 hari"
                         android:textColor="#757575"
-                        android:textSize="9sp"
-                        android:fontFamily="@font/poppins_medium"/>
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <!-- Badge 3 -->
@@ -292,13 +294,14 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="14dp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="14 hari"
                         android:textColor="#757575"
-                        android:textSize="9sp"
-                        android:fontFamily="@font/poppins_medium"/>
+                        android:textSize="9sp" />
                 </LinearLayout>
 
                 <!-- Badge 4 -->
@@ -336,13 +339,14 @@
                         android:textSize="11sp"
                         android:textAlignment="center"
                         android:fontFamily="@font/poppins_bold"/>
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="14dp"
+                        android:fontFamily="@font/poppins_medium"
                         android:text="30 hari"
                         android:textColor="#757575"
-                        android:textSize="9sp"
-                        android:fontFamily="@font/poppins_medium"/>
+                        android:textSize="9sp" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -28,6 +28,11 @@ class DashboardFragment : Fragment() {
 
     private val viewModel: DashboardViewModel by viewModels()
 
+    // TAMBAHKAN INI: Memanggil SharedPreferences yang sama dengan Profil
+    private val sharedPrefs by lazy {
+        requireContext().getSharedPreferences("GreenLyticsPrefs", android.content.Context.MODE_PRIVATE)
+    }
+
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -59,7 +64,7 @@ class DashboardFragment : Fragment() {
         val tvGreeting = view.findViewById<TextView>(R.id.tvGreeting)
         val tvEmisiValue = view.findViewById<TextView>(R.id.tvEmisiValue)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBarEmission)
-
+        val tvLimit = view.findViewById<TextView>(R.id.tvLimit)
         val tvValueTransport = view.findViewById<TextView>(R.id.tvValueTransport)
         val tvValueElectric = view.findViewById<TextView>(R.id.tvValueElectric)
         val tvValueWaste = view.findViewById<TextView>(R.id.tvValueWaste)
@@ -68,9 +73,19 @@ class DashboardFragment : Fragment() {
 
         // 1. Sapaan & Total
         viewModel.greetingText.observe(viewLifecycleOwner) { tvGreeting.text = it }
+
         viewModel.todayTotal.observe(viewLifecycleOwner) { total ->
             tvEmisiValue.text = String.format("%.1f", total)
-            progressBar.progress = ((total / 8.0) * 100).toInt().coerceAtMost(100)
+
+            // Ambil data target dari SharedPreferences Profil
+            val targetString = sharedPrefs.getString("TARGET_EMISI", "8") ?: "8"
+            val targetEmisi = targetString.toDoubleOrNull() ?: 8.0
+
+            // UPDATE TEKS BATAS SESUAI TARGET PROFIL
+            tvLimit.text = "Batas: $targetString kg"
+
+            // Update Progress Bar
+            progressBar.progress = ((total / targetEmisi) * 100).toInt().coerceAtMost(100)
         }
 
         // 2. Kategori
