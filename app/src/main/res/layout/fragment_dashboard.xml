@@ -202,12 +202,16 @@
                     android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
+                    <!-- 🔥 ID DITAMBAHKAN DI SINI -->
                     <TextView
+                        android:id="@+id/tvStreakCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="7 Hari Beruntun"
+                        android:text="0 Hari Beruntun"
                         android:textColor="#1A1A1A"
                         android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -375,5 +379,6 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

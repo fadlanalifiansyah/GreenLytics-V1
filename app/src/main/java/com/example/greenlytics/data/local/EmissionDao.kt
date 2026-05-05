@@ -48,4 +48,8 @@ interface EmissionDao {
     // 9. Mengambil nilai emisi paling rendah (terbaik)
     @Query("SELECT MIN(emisiKarbon) FROM emission_table")
     suspend fun getLowestEmission(): Double?
+
+    // Menarik daftar lengkap emisi dalam rentang waktu (Untuk Dashboard)
+    @Query("SELECT * FROM emission_table WHERE tanggalInput BETWEEN :startTime AND :endTime")
+    suspend fun getEmissionsListBetweenDates(startTime: Long, endTime: Long): List<EmissionEntity>
 }

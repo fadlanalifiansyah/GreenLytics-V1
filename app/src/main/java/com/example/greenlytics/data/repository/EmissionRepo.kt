@@ -86,6 +86,10 @@ class EmissionRepo @Inject constructor(
         personalRef.set(emission).await()
     }
 
+    suspend fun getEmissionsListBetweenDates(start: Long, end: Long): List<EmissionEntity> {
+        return dao.getEmissionsListBetweenDates(start, end)
+    }
+
     // Untuk Menarik data dari Firebase saat login di HP baru
     suspend fun restoreDataFromCloud() {
         val uid = currentUid ?: return
