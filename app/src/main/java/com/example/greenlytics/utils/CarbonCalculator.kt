@@ -2,7 +2,6 @@ package com.example.greenlytics.utils
 
 /**
  * Mesin Utama Perhitungan Emisi Karbon GreenLytics.
- * Berdasarkan dokumen proposal (ESDM, IPCC, USEEIO, NAICS).
  * Satuan hasil akhir adalah kg CO2e (Kilogram Karbon Dioksida Ekuivalen).
  */
 object CarbonCalculator {
@@ -11,10 +10,10 @@ object CarbonCalculator {
     // 1. TRANSPORTASI
     // ==========================================
     enum class VehicleType(val factor: Double) {
-        MOBIL(3.579),
-        MOTOR(1.802),
-        BUS(0.948),
-        KRL(0.345)
+        MOBIL(0.170), // Which form of transport has the smallest carbon footprint? (2023) https://ourworldindata.org/travel-carbon-footprint
+        MOTOR(0.114), // Which form of transport has the smallest carbon footprint? (2023) https://ourworldindata.org/travel-carbon-footprint
+        BUS(0.097), // Which form of transport has the smallest carbon footprint? (2023) https://ourworldindata.org/travel-carbon-footprint
+        KRL(0.034) // RISET BRIN: KAI COMMUTER LINE https://kci.id/informasi-publik/berita/riset-brin-commuter-line-ramah-lingkungan-jejak-karbon-lebih-rendah-dukung-pelestarian-lingkungan-kai-commuter-tegaskan-komitmen-hadirkan-transportasi-yang-ramah-lingkungan
     }
 
     /**
@@ -26,11 +25,11 @@ object CarbonCalculator {
 
 
     // ==========================================
-    // 2. LISTRIK (GEF CM JAMALI = 0.87 kg CO2/kWh)
+    // 2. LISTRIK (GEF CM JAMALI = 0.87 kg CO2/kWh) https://gatrik.esdm.go.id/assets/uploads/download_index/files/96d7c-nilai-fe-grk-sistem-ketenagalistrikan-tahun-2019.pdf
     // ==========================================
     private const val EF_ELECTRICITY = 0.87
 
-    enum class ElectricTariff(val ratePerKwh: Double, val label: String) {
+    enum class ElectricTariff(val ratePerKwh: Double, val label: String) { //Kategori harga mengambil dari data https://web.pln.co.id/statics/uploads/2026/01/202601-Tarif-Listrik.jpeg
         R1_900VA(1352.00, "R-1 (900 VA)"),
         R1_1300_2200VA(1444.70, "R-1 (1300-2200 VA)"),
         R2_3500_5500VA(1699.53, "R-2 (3500-5500 VA)")
@@ -57,7 +56,7 @@ object CarbonCalculator {
     }
 
     // ==========================================
-    // 4. SAMPAH (IPCC First Order Decay)
+    // 4. SAMPAH (IPCC First Order Decay) https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/5_Volume5/IPCC_Waste_Model.xls
     // ==========================================
     enum class WasteType(val factor: Double) {
         ORGANIK(0.887),

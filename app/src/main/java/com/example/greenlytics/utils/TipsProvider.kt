@@ -2,56 +2,65 @@ package com.example.greenlytics.utils
 
 import com.example.greenlytics.data.local.EmissionEntity
 import com.example.greenlytics.data.model.TipsModel
+import java.util.Calendar
 
 object TipsProvider {
 
-    // Daftar semua tips berdasarkan riset
     val allTips = listOf(
-        // KATEGORI LISTRIK
-        TipsModel(1, "Listrik", "General", "Cabut Colokan Listrik yang Tidak Dipakai", "Vampir listrik tetap menyedot energi meski alat mati. Yuk cabut charger HP atau TV jika selesai!", "Link", "Mudah"),
-        TipsModel(2, "Listrik", "General", "Atur Suhu AC 24-26°C", "Mengatur suhu AC lebih sejuk sedikit bisa menghemat penggunaan kompresor secara signifikan.", "Link", "Mudah"),
+        // LISTRIK
+        TipsModel(1, "Listrik", "General", "Cabut Colokan Listrik", "Vampir listrik tetap menyedot energi meski alat mati. Yuk cabut charger HP!", "Energy.gov", "Mudah"),
+        TipsModel(2, "Listrik", "General", "Atur Suhu AC 24-26°C", "Mengatur suhu AC lebih sejuk sedikit bisa menghemat penggunaan kompresor.", "IESR", "Mudah"),
+        TipsModel(3, "Listrik", "General", "Cuci & Setrika Sekaligus", "Tarikan listrik awal setrika sangat besar. Kerjakan sekaligus!", "ESDM", "Sedang"),
 
-        // KATEGORI TRANSPORTASI (Threshold > 5.0 kg)
-        TipsModel(4, "Transportasi", "BUS", "Lebih Hemat dengan Bus Transjakarta", "Satu bus mengurangi belasan motor di jalan. Pastikan gunakan rute integrasi agar maksimal.", "ITDP Indonesia", "Sedang"),
-        TipsModel(5, "Transportasi", "KRL", "Kereta: Pilihan Rendah Emisi", "Commuter Line hanya menghasilkan ±34,03 gram CO₂ per penumpang-km.", "KAI Commuter - BRIN", "Mudah"),
-        TipsModel(6, "Transportasi", "MOBIL", "Coba Carpooling Yuk!", "Ajak teman searah pergi bareng agar emisi satu mobil dibagi berempat.", "Kemenhub RI", "Sedang"),
-        TipsModel(7, "Transportasi", "MOTOR", "Servis Rutin Motormu", "Mesin yang terawat memastikan pembakaran bensin lebih sempurna dan gas buang lebih rendah.", "KLHK", "Sedang"),
+        // TRANSPORTASI
+        TipsModel(4, "Transportasi", "BUS", "Naik Transjakarta", "Satu bus mengurangi belasan motor di jalan.", "ITDP", "Sedang"),
+        TipsModel(5, "Transportasi", "KRL", "Prioritaskan Commuter Line", "Kereta berbasis rel adalah moda transportasi paling rendah emisi.", "BRIN", "Mudah"),
+        TipsModel(6, "Transportasi", "MOBIL", "Coba Carpooling Yuk!", "Ajak teman searah pergi bareng agar emisi dibagi berempat.", "Kemenhub", "Sedang"),
+        TipsModel(7, "Transportasi", "MOTOR", "Servis Rutin Berkala", "Mesin terawat pastikan pembakaran sempurna dan emisi rendah.", "KLHK", "Sedang"),
 
-        // KATEGORI SAMPAH (Threshold > 2.0 kg)[cite: 1]
-        TipsModel(8, "Sampah", "ORGANIK", "Olah Sampah Organik Jadi Kompos", "Sampah makanan di TPA menghasilkan gas metana yang 28x lebih berbahaya dari CO2.", "SIPSN - KLHK", "Sulit"),
-        TipsModel(9, "Sampah", "ANORGANIK", "Setor ke Bank Sampah", "Plastik butuh ratusan tahun untuk terurai. Jangan dibakar! Serahkan ke bank sampah.", "SWI", "Sedang")
+        // SAMPAH
+        TipsModel(8, "Sampah", "ORGANIK", "Mulai Membuat Kompos", "Sampah makanan di TPA hasilkan gas metana berbahaya.", "KLHK", "Sulit"),
+        TipsModel(9, "Sampah", "ANORGANIK", "Setor ke Bank Sampah", "Plastik butuh ratusan tahun terurai. Jangan dibakar!", "SWI", "Sedang"),
+        TipsModel(10, "Sampah", "CAMPURAN", "Mulailah Memilah Sampah", "Sampah tercampur sulit diproses. Pisahkan minimal dua wadah.", "SIPSN", "Sedang")
     )
 
-    fun getRelevantTips(emissions: List<EmissionEntity>): List<TipsModel> {
+    fun getRelevantTips(emissionsToday: List<EmissionEntity>): List<TipsModel> {
         val resultTips = mutableListOf<TipsModel>()
 
-        // Hitung total emisi riil dari database[cite: 1]
-        val transportTotal = emissions.filter { it.kategori == "Transportasi" }.sumOf { it.emisiKarbon }
-        val wasteTotal = emissions.filter { it.kategori == "Sampah" }.sumOf { it.emisiKarbon }
+        // 1. HITUNG EMISI MASING-MASING SUB-KATEGORI HARI INI
+        val emisiMotor = emissionsToday.filter { it.subKategori.equals("Motor", true) }.sumOf { it.emisiKarbon }
+        val emisiMobil = emissionsToday.filter { it.subKategori.equals("Mobil", true) }.sumOf { it.emisiKarbon }
+        val emisiBus = emissionsToday.filter { it.subKategori.equals("Bus Transjakarta", true) }.sumOf { it.emisiKarbon }
+        val emisiKRL = emissionsToday.filter { it.subKategori.equals("KRL", true) }.sumOf { it.emisiKarbon }
 
-        // Identifikasi sub-kategori dominan[cite: 1]
-        val dominantVehicle = emissions.filter { it.kategori == "Transportasi" }
-            .maxByOrNull { it.emisiKarbon }?.subKategori ?: ""
+        val emisiOrganik = emissionsToday.filter { it.subKategori.equals("Organik", true) }.sumOf { it.emisiKarbon }
+        val emisiAnorganik = emissionsToday.filter { it.subKategori.equals("Anorganik", true) }.sumOf { it.emisiKarbon }
+        val emisiCampuran = emissionsToday.filter { it.subKategori.equals("Campuran", true) }.sumOf { it.emisiKarbon }
 
-        val dominantWaste = emissions.filter { it.kategori == "Sampah" }
-            .maxByOrNull { it.emisiKarbon }?.subKategori ?: ""
+        val totalListrik = emissionsToday.filter { it.kategori.equals("Listrik", true) }.sumOf { it.emisiKarbon }
 
-        // Filter berdasarkan ambang batas riset[cite: 1]
-        if (transportTotal > 5.0) {
-            allTips.find { it.kategori == "Transportasi" && it.subKategori.equals(dominantVehicle, true) }?.let { resultTips.add(it) }
+        // 2. EVALUASI SATU PER SATU (Bisa muncul banyak di layar)
+
+        // Transportasi > 5.0 kg
+        if (emisiMotor > 5.0) allTips.find { it.subKategori == "MOTOR" }?.let { resultTips.add(it) }
+        if (emisiMobil > 5.0) allTips.find { it.subKategori == "MOBIL" }?.let { resultTips.add(it) }
+        if (emisiBus > 5.0) allTips.find { it.subKategori == "BUS" }?.let { resultTips.add(it) }
+        if (emisiKRL > 5.0) allTips.find { it.subKategori == "KRL" }?.let { resultTips.add(it) }
+
+        // Sampah > 5.0 kg
+        if (emisiOrganik > 5.0) allTips.find { it.subKategori == "ORGANIK" }?.let { resultTips.add(it) }
+        if (emisiAnorganik > 5.0) allTips.find { it.subKategori == "ANORGANIK" }?.let { resultTips.add(it) }
+        if (emisiCampuran > 5.0) allTips.find { it.subKategori == "CAMPURAN" }?.let { resultTips.add(it) }
+
+        // Listrik > 5.0 kg
+        if (totalListrik > 5.0) {
+            val tipsListrik = allTips.filter { it.kategori == "Listrik" }
+            // Menggunakan hari dalam setahun agar tipsnya tidak acak/berubah-ubah tiap kali kamu input data baru
+            val dayOfYear = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+            val tipIndex = dayOfYear % tipsListrik.size
+            resultTips.add(tipsListrik[tipIndex])
         }
 
-        if (wasteTotal > 2.0) {
-            allTips.find { it.kategori == "Sampah" && it.subKategori.equals(dominantWaste, true) }?.let { resultTips.add(it) }
-        }
-
-        // Selalu sertakan tips Listrik secara acak sebagai edukasi harian[cite: 1]
-        val electricityTips = allTips.filter { it.kategori == "Listrik" }
-        if (electricityTips.isNotEmpty()) resultTips.add(electricityTips.random())
-
-        // Default jika database kosong
-        if (resultTips.isEmpty()) resultTips.addAll(allTips.filter { it.kategori == "Listrik" }.take(2))
-
-        return resultTips.distinctBy { it.id }
+        return resultTips.distinctBy { it.id }.map { it.copy() }
     }
 }
