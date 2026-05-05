@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 @HiltViewModel
@@ -20,11 +19,10 @@ class ProgressViewModel @Inject constructor(
     private val repository: EmissionRepo
 ) : ViewModel() {
 
-    // LiveData untuk Chart
-    private val _chartData = MutableLiveData<Pair<List<BarEntry>, List<Entry>>>()
-    val chartData: LiveData<Pair<List<BarEntry>, List<Entry>>> = _chartData
+    // LiveData untuk Chart (Sekarang mengirim 3 data: Bar, Line, dan Label Hari)
+    private val _chartData = MutableLiveData<Triple<List<BarEntry>, List<Entry>, Array<String>>>()
+    val chartData: LiveData<Triple<List<BarEntry>, List<Entry>, Array<String>>> = _chartData
 
-    // LiveData untuk Streak
     private val _streakCount = MutableLiveData<Int>()
     val streakCount: LiveData<Int> = _streakCount
 
@@ -38,63 +36,78 @@ class ProgressViewModel @Inject constructor(
     private suspend fun calculateWeeklyChart() {
         val barEntries = ArrayList<BarEntry>()
         val lineEntries = ArrayList<Entry>()
+        val labels = Array(7) { "" }
 
+        // LOGIKA MENCARI HARI SENIN MINGGU INI
         val calendar = Calendar.getInstance()
-        // Set ke jam 23:59 hari ini
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
+        calendar.firstDayOfWeek = Calendar.MONDAY
 
-        // Ambil data 7 hari ke belakang
-        for (i in 6 downTo 0) {
-            val endTime = calendar.timeInMillis
+        val currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        val diffToMonday = if (currentDayOfWeek == Calendar.SUNDAY) 6 else currentDayOfWeek - Calendar.MONDAY
 
-            // Set ke jam 00:00 di hari yang sama
-            val tempCal = calendar.clone() as Calendar
-            tempCal.set(Calendar.HOUR_OF_DAY, 0)
-            tempCal.set(Calendar.MINUTE, 0)
-            tempCal.set(Calendar.SECOND, 0)
-            val startTime = tempCal.timeInMillis
+        // Set ke Senin jam 00:00
+        calendar.add(Calendar.DAY_OF_MONTH, -diffToMonday)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        val startOfThisWeek = calendar.timeInMillis
 
-            // Ambil total emisi hari itu dari Room
-            val dailyTotal = repository.getEmissionsBetweenDates(startTime, endTime)
+        // Set ke Minggu jam 23:59
+        val endCal = Calendar.getInstance()
+        endCal.timeInMillis = startOfThisWeek
+        endCal.add(Calendar.DAY_OF_MONTH, 6)
+        endCal.set(Calendar.HOUR_OF_DAY, 23)
+        endCal.set(Calendar.MINUTE, 59)
+        endCal.set(Calendar.SECOND, 59)
+        val endOfThisWeek = endCal.timeInMillis
 
-            // Masukkan ke list (index 0 adalah hari tertua, index 6 adalah hari ini)
-            val xPos = (6 - i).toFloat()
-            barEntries.add(BarEntry(xPos, dailyTotal.toFloat()))
+        // Tarik data emisi minggu ini
+        val weeklyEmissions = repository.getEmissionsListBetweenDates(startOfThisWeek, endOfThisWeek)
 
-            // Tren (Line) bisa kita buat sama dengan Bar atau rata-rata bergerak
-            lineEntries.add(Entry(xPos, dailyTotal.toFloat()))
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val displayFormat = SimpleDateFormat("EEE", Locale("id", "ID"))
 
-            // Mundur 1 hari untuk iterasi berikutnya
-            calendar.add(Calendar.DAY_OF_YEAR, -1)
+        // Loop dari Senin (0) sampai Minggu (6)
+        for (i in 0..6) {
+            val loopCal = Calendar.getInstance()
+            loopCal.timeInMillis = startOfThisWeek
+            loopCal.add(Calendar.DAY_OF_MONTH, i)
+
+            val dateStrForFilter = dateFormat.format(loopCal.time)
+
+            // Simpan nama harinya
+            labels[i] = displayFormat.format(loopCal.time)
+
+            // Hitung emisi untuk hari tersebut
+            val dailyTotal = weeklyEmissions.filter {
+                dateFormat.format(java.util.Date(it.tanggalInput)) == dateStrForFilter
+            }.sumOf { it.emisiKarbon }.toFloat()
+
+            barEntries.add(BarEntry(i.toFloat(), dailyTotal))
+            lineEntries.add(Entry(i.toFloat(), dailyTotal))
         }
 
-        _chartData.value = Pair(barEntries, lineEntries)
+        // Kirim ketiga data sekaligus ke UI
+        _chartData.value = Triple(barEntries, lineEntries, labels)
     }
 
     private suspend fun calculateStreak() {
-        // 1. Ambil semua data emisi dari database
-        val allEmissions = repository.getAllEmissions() // Datanya sudah urut dari terbaru ke terlama berkat DAO
+        val allEmissions = repository.getAllEmissions()
 
         if (allEmissions.isEmpty()) {
             _streakCount.value = 0
             return
         }
 
-        // 2. Ekstrak tanggalnya saja (buang jam, menit, detik) agar aktivitas di hari yang sama tidak dihitung ganda
         val uniqueDays = mutableSetOf<String>()
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         for (emission in allEmissions) {
-            val dateStr = sdf.format(Date(emission.tanggalInput))
+            val dateStr = sdf.format(java.util.Date(emission.tanggalInput))
             uniqueDays.add(dateStr)
         }
 
-        // Jadikan list yang berurutan (tanggal terbaru di urutan pertama)
         val sortedDays = uniqueDays.toList().sortedDescending()
-
-        // 3. Logika Menghitung Streak (Hari Berturut-turut)
         var currentStreak = 0
         val calendar = Calendar.getInstance()
 
@@ -102,13 +115,11 @@ class ProgressViewModel @Inject constructor(
         calendar.add(Calendar.DAY_OF_YEAR, -1)
         val yesterdayStr = sdf.format(calendar.time)
 
-        // Jika aktivitas terakhir bukan hari ini ATAU kemarin, berarti streak sudah putus (bolong)
         if (sortedDays.first() != todayStr && sortedDays.first() != yesterdayStr) {
             _streakCount.value = 0
             return
         }
 
-        // Mulai cek mundur dari hari aktivitas terakhir
         val checkCalendar = Calendar.getInstance()
         if (sortedDays.first() == yesterdayStr) {
             checkCalendar.add(Calendar.DAY_OF_YEAR, -1)
@@ -116,17 +127,12 @@ class ProgressViewModel @Inject constructor(
 
         for (dayStr in sortedDays) {
             val targetStr = sdf.format(checkCalendar.time)
-
             if (dayStr == targetStr) {
                 currentStreak++
                 checkCalendar.add(Calendar.DAY_OF_YEAR, -1)
-            } else {
-                // Ada hari yang bolong/terlewat, hentikan penghitungan
-                break
-            }
+            } else break
         }
 
-        // 4. Update UI
         _streakCount.value = currentStreak
     }
 }

@@ -42,7 +42,6 @@ class DashboardViewModel @Inject constructor(
     private val _chartData = MutableLiveData<List<Pair<String, Float>>>()
     val chartData: LiveData<List<Pair<String, Float>>> = _chartData
 
-    // 🔥 LiveData untuk Streak Dinamis
     private val _streakCount = MutableLiveData<Int>()
     val streakCount: LiveData<Int> = _streakCount
 
@@ -68,21 +67,27 @@ class DashboardViewModel @Inject constructor(
     private fun loadDashboardData() {
         viewModelScope.launch {
             val calendar = Calendar.getInstance()
+            calendar.firstDayOfWeek = Calendar.MONDAY
 
-            calendar.set(Calendar.HOUR_OF_DAY, 23)
-            calendar.set(Calendar.MINUTE, 59)
-            calendar.set(Calendar.SECOND, 59)
-            val endOfToday = calendar.timeInMillis
+            val currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            val diffToMonday = if (currentDayOfWeek == Calendar.SUNDAY) 6 else currentDayOfWeek - Calendar.MONDAY
 
-            calendar.add(Calendar.DAY_OF_YEAR, -6)
+            calendar.add(Calendar.DAY_OF_MONTH, -diffToMonday)
             calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
-            val startOf7DaysAgo = calendar.timeInMillis
+            val startOfThisWeek = calendar.timeInMillis
 
-            val weeklyEmissions = repository.getEmissionsListBetweenDates(startOf7DaysAgo, endOfToday)
+            val endCal = Calendar.getInstance()
+            endCal.timeInMillis = startOfThisWeek
+            endCal.add(Calendar.DAY_OF_MONTH, 6)
+            endCal.set(Calendar.HOUR_OF_DAY, 23)
+            endCal.set(Calendar.MINUTE, 59)
+            endCal.set(Calendar.SECOND, 59)
+            val endOfThisWeek = endCal.timeInMillis
 
-            // --- DATA RINGKASAN HARI INI ---
+            val weeklyEmissions = repository.getEmissionsListBetweenDates(startOfThisWeek, endOfThisWeek)
+
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val todayString = dateFormat.format(System.currentTimeMillis())
 
@@ -97,13 +102,13 @@ class DashboardViewModel @Inject constructor(
             _foodTotal.value = todayData.filter { it.subKategori == "MAKANAN_MINUMAN" }.sumOf { it.emisiKarbon }
             _shoppingTotal.value = todayData.filter { it.kategori == "Belanja" && it.subKategori != "MAKANAN_MINUMAN" }.sumOf { it.emisiKarbon }
 
-            // --- DATA GRAFIK (7 Hari Terakhir) ---
             val displayFormat = SimpleDateFormat("EEE", Locale("id", "ID"))
             val chartEntries = mutableListOf<Pair<String, Float>>()
 
             for (i in 0..6) {
                 val loopCal = Calendar.getInstance()
-                loopCal.add(Calendar.DAY_OF_YEAR, -(6 - i))
+                loopCal.timeInMillis = startOfThisWeek
+                loopCal.add(Calendar.DAY_OF_MONTH, i)
 
                 val dateStrForFilter = dateFormat.format(loopCal.time)
                 val dateStrForChart = displayFormat.format(loopCal.time)
@@ -116,13 +121,10 @@ class DashboardViewModel @Inject constructor(
             }
 
             _chartData.value = chartEntries
-
-            // 🔥 Panggil fungsi kalkulasi streak
             calculateStreak()
         }
     }
 
-    // Fungsi sinkron dengan arsitektur Profil/Progress untuk menghitung hari berturut-turut
     private suspend fun calculateStreak() {
         val allEmissions = repository.getAllEmissions()
         var currentStreak = 0

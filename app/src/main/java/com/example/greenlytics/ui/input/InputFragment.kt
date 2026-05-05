@@ -33,7 +33,7 @@ class InputFragment : Fragment() {
         binding.viewPager.adapter = adapter
 
         // 2. Judul untuk masing-masing Tab
-        val tabTitles = arrayOf("Transport", "Listrik", "Belanja", "Sampah")
+        val tabTitles = arrayOf("Transport", "Listrik", "Sampah")
 
         // 3. Menghubungkan TabLayout dan ViewPager2 (TabLayoutMediator)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

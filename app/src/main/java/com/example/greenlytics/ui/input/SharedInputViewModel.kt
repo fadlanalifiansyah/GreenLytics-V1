@@ -14,16 +14,17 @@ class SharedInputViewModel @Inject constructor(
     private val repository: EmissionRepo
 ) : ViewModel() {
 
-    /* Fungsi Simpan untuk Transportasi */
-    fun saveTransport(distance: Double, type: CarbonCalculator.VehicleType, passengers: Int = 1, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
+    /* Fungsi Simpan untuk Transportasi (Sudah tanpa passenger) */
+    fun saveTransport(distance: Double, type: CarbonCalculator.VehicleType, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
         viewModelScope.launch {
-            val result = CarbonCalculator.calculateTransport(distance, type, passengers)
-            // Kategori: Transportasi, Sub: Jenis Kendaraan (Motor/Mobil/Bus), dst.
+            // Kalkulator sudah menghitung otomatis per penumpang dari faktor emisinya
+            val result = CarbonCalculator.calculateTransport(distance, type)
+            // Kategori: Transportasi, Sub: Jenis Kendaraan (Motor/Mobil/Bus/KRL), dst.
             insertToDatabase("Transportasi", type.name, distance, "km", result, cityName, lat, lon)
         }
     }
 
-    /* Fungsi Simpan untuk Listrik (Menerima hasil dari ElectricViewModel */
+    /* Fungsi Simpan untuk Listrik (Menerima hasil dari ElectricViewModel) */
     fun saveElectricity(inputValue: Double, unit: String, carbonResult: Double, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
         viewModelScope.launch {
             // Langsung masukkan carbonResult ke database, tidak perlu dihitung ulang di sini
@@ -38,16 +39,6 @@ class SharedInputViewModel @Inject constructor(
         viewModelScope.launch {
             val result = CarbonCalculator.calculateWaste(weight, type)
             insertToDatabase("Sampah", type.name, weight, "kg", result, cityName, lat, lon)
-        }
-    }
-
-    /**
-     * Fungsi Simpan untuk Belanja (Spend-based)
-     */
-    fun saveShopping(spendRp: Double, category: CarbonCalculator.ShoppingCategory, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
-        viewModelScope.launch {
-            val result = CarbonCalculator.calculateShopping(spendRp, category)
-            insertToDatabase("Belanja", category.name, spendRp, "IDR", result, cityName, lat, lon)
         }
     }
 

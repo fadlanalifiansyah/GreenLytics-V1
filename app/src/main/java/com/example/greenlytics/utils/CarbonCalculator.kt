@@ -11,30 +11,24 @@ object CarbonCalculator {
     // 1. TRANSPORTASI
     // ==========================================
     enum class VehicleType(val factor: Double) {
-        MOBIL(0.229),
-        MOTOR(0.038),
-        BUS(0.527), // Ingat: Bus harus dibagi jumlah penumpang
-        KRL(0.0152) // KRL sudah per penumpang
+        MOBIL(3.579),
+        MOTOR(1.802),
+        BUS(0.948),
+        KRL(0.345)
     }
 
     /**
      * Hitung emisi transportasi per kilometer.
-     * Khusus untuk Bus, masukkan jumlah penumpang agar emisi dibagi rata.
      */
-    fun calculateTransport(distanceKm: Double, type: VehicleType, passengerCount: Int = 1): Double {
-        return if (type == VehicleType.BUS) {
-            // Bus: Jarak * (0.527 / jumlah penumpang)
-            distanceKm * (type.factor / passengerCount.coerceAtLeast(1))
-        } else {
-            distanceKm * type.factor
-        }
+    fun calculateTransport(distanceKm: Double, type: VehicleType): Double {
+        return distanceKm * type.factor
     }
 
 
     // ==========================================
-    // 2. LISTRIK (GEF OM JAMALI = 0.80 kg CO2/kWh)
+    // 2. LISTRIK (GEF CM JAMALI = 0.87 kg CO2/kWh)
     // ==========================================
-    private const val EF_ELECTRICITY = 0.80
+    private const val EF_ELECTRICITY = 0.87
 
     enum class ElectricTariff(val ratePerKwh: Double, val label: String) {
         R1_900VA(1352.00, "R-1 (900 VA)"),
@@ -61,32 +55,6 @@ object CarbonCalculator {
         val totalEmisi = kwh * EF_ELECTRICITY
         return if (isMonthlyTagihan) totalEmisi / 30.0 else totalEmisi
     }
-
-
-    // ==========================================
-    // 3. BELANJA (Spend-Based Method USEEIO)
-    // ==========================================
-    // Asumsi kurs USD ke IDR tahun 2024
-    private const val KURS_USD_TO_IDR = 15500.0
-
-    enum class ShoppingCategory(val factorUsd: Double) {
-        MAKANAN_MINUMAN(0.755),
-        FASHION(0.155),
-        ELEKTRONIK(0.078),
-        PERABOT(0.145),
-        KECANTIKAN(0.130),
-        HIBURAN(0.114)
-    }
-
-    /**
-     * Hitung emisi dari pengeluaran belanja (Rupiah).
-     * Otomatis dikonversi ke USD di dalam fungsi.
-     */
-    fun calculateShopping(spendRp: Double, category: ShoppingCategory): Double {
-        val spendUsd = spendRp / KURS_USD_TO_IDR
-        return spendUsd * category.factorUsd
-    }
-
 
     // ==========================================
     // 4. SAMPAH (IPCC First Order Decay)

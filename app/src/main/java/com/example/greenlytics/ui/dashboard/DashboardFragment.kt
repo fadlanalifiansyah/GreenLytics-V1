@@ -62,10 +62,7 @@ class DashboardFragment : Fragment() {
 
         val tvValueTransport = view.findViewById<TextView>(R.id.tvValueTransport)
         val tvValueElectric = view.findViewById<TextView>(R.id.tvValueElectric)
-        val tvValueFood = view.findViewById<TextView>(R.id.tvValueFood)
-        val tvValueShopping = view.findViewById<TextView>(R.id.tvValueShopping)
         val tvValueWaste = view.findViewById<TextView>(R.id.tvValueWaste)
-
         val chart = view.findViewById<CombinedChart>(R.id.combinedChart)
         val tvStreakCount = view.findViewById<TextView>(R.id.tvStreakCount)
 
@@ -79,8 +76,6 @@ class DashboardFragment : Fragment() {
         // 2. Kategori
         viewModel.transportTotal.observe(viewLifecycleOwner) { tvValueTransport.text = String.format("%.1f kg", it) }
         viewModel.electricTotal.observe(viewLifecycleOwner) { tvValueElectric.text = String.format("%.1f kg", it) }
-        viewModel.foodTotal.observe(viewLifecycleOwner) { tvValueFood.text = String.format("%.1f kg", it) }
-        viewModel.shoppingTotal.observe(viewLifecycleOwner) { tvValueShopping.text = String.format("%.1f kg", it) }
         viewModel.wasteTotal.observe(viewLifecycleOwner) { tvValueWaste.text = String.format("%.1f kg", it) }
 
         // 3. Setup Grafik Combined
