@@ -46,30 +46,22 @@ class TransportFragment : Fragment(R.layout.fragment_transport) {
         // Update estimasi tiap kali angka jarak berubah
         binding.etDistance.doAfterTextChanged { recalculate() }
 
-        // Logic Slider Bus
-        binding.sliderPassenger.addOnChangeListener { _, value, _ ->
-            binding.tvPassengerLabel.text = "Jumlah Penumpang: ${value.toInt()} Orang"
-            recalculate()
-        }
-
         // Tombol Simpan Permanen ke Database
         binding.btnSaveTransport.setOnClickListener {
             val distance = binding.etDistance.text.toString().toDoubleOrNull() ?: 0.0
             if (distance > 0) {
-                // 🔥 BUNGKUS DENGAN COROUTINE KARENA MENCARI LOKASI BUTUH WAKTU
+                // BUNGKUS DENGAN COROUTINE KARENA MENCARI LOKASI BUTUH WAKTU
                 viewLifecycleOwner.lifecycleScope.launch {
                     val locationHelper = LocationHelper(requireContext())
-                    // 🔥 Update: Mengambil paket komplit (Kota, Lat, Lon)
+                    // Mengambil paket komplit (Kota, Lat, Lon)
                     val locDetail = locationHelper.getCurrentLocation()
 
                     val vehicle = viewModel.selectedVehicle.value ?: CarbonCalculator.VehicleType.MOBIL
-                    val passengers = binding.sliderPassenger.value.toInt()
 
-                    // 🔥 SISIPKAN cityName, lat, lon
+                    // menyisipkan cityName, lat, lon
                     sharedViewModel.saveTransport(
                         distance = distance,
                         type = vehicle,
-                        passengers = passengers,
                         cityName = locDetail.cityName,
                         lat = locDetail.lat,
                         lon = locDetail.lon
@@ -99,8 +91,7 @@ class TransportFragment : Fragment(R.layout.fragment_transport) {
 
     private fun recalculate() {
         val distance = binding.etDistance.text.toString().toDoubleOrNull() ?: 0.0
-        val passengers = binding.sliderPassenger.value.toInt()
-        viewModel.updateEstimation(distance, passengers)
+        viewModel.updateEstimation(distance) // Pastikan ini disesuaikan di TransportViewModel juga
     }
 
     private fun updateCardUI(selected: CarbonCalculator.VehicleType) {
@@ -147,7 +138,6 @@ class TransportFragment : Fragment(R.layout.fragment_transport) {
         selectedText.setTextColor(primaryColor)
         selectedText.typeface = fontSemiBold // Set ke SemiBold
 
-        binding.layoutPassenger.visibility = if (selected == CarbonCalculator.VehicleType.BUS) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

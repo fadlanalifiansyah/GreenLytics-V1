@@ -19,8 +19,8 @@ class TransportViewModel : ViewModel() {
         _selectedVehicle.value = type
     }
 
-    fun updateEstimation(distance: Double, passengerCount: Int = 1) {
+    fun updateEstimation(distance: Double) {
         val vehicle = _selectedVehicle.value ?: CarbonCalculator.VehicleType.MOBIL
-        _estimatedCarbon.value = CarbonCalculator.calculateTransport(distance, vehicle, passengerCount)
+        _estimatedCarbon.value = CarbonCalculator.calculateTransport(distance, vehicle)
     }
 }

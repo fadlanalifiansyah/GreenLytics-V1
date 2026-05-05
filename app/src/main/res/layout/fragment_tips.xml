@@ -124,10 +124,12 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
+                        <!-- REVISI: Tambahkan ID agar bisa diubah lewat ViewModel -->
                         <TextView
+                            android:id="@+id/tvPotentialSaving"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1.2 kg CO₂"
+                            android:text="0.0 kg CO₂"
                             android:textColor="@color/warning"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -158,7 +160,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <!-- REVISI: Tambahkan ID btnFilterSemua -->
                 <TextView
+                    android:id="@+id/btnFilterSemua"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
@@ -167,9 +171,13 @@
                     android:paddingVertical="10dp"
                     android:text="Semua"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
+                <!-- REVISI: Tambahkan ID btnFilterTransport -->
                 <TextView
+                    android:id="@+id/btnFilterTransport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
@@ -177,26 +185,36 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
                     android:text="Transportasi"
-                    android:textColor="#44474E" />
+                    android:textColor="#44474E"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
+                <!-- REVISI: Tambahkan ID btnFilterListrik -->
                 <TextView
+                    android:id="@+id/btnFilterListrik"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/bg_chip_inactive"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
-                    android:text="Energi"
-                    android:textColor="#44474E" />
+                    android:text="Listrik"
+                    android:textColor="#44474E"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
+                <!-- REVISI: Tambahkan ID btnFilterSampah -->
                 <TextView
+                    android:id="@+id/btnFilterSampah"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_chip_inactive"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
-                    android:text="Makanan"
-                    android:textColor="#44474E" />
+                    android:text="Sampah"
+                    android:textColor="#44474E"
+                    android:clickable="true"
+                    android:focusable="true"/>
             </LinearLayout>
         </HorizontalScrollView>
 
