@@ -35,9 +35,6 @@ Aplikasi ini dikembangkan untuk keperluan kompetisi Hackathon Inovasi. Anda dapa
 Kontribusi:
 Untuk saat ini, proyek GreenLytics dikembangkan secara internal oleh tim inti untuk tahap penjurian kompetisi. Oleh karena itu, kontribusi dari pihak luar (open-source contribution) belum dapat diterima hingga kompetisi selesai atau ada kebijakan lebih lanjut dari tim.
 
-Lisensi:
-Hak Cipta dilindungi. Kode sumber dan aset proyek ini merupakan milik internal tim pengembang GreenLytics dan tidak didistribusikan secara publik atau di bawah lisensi perangkat lunak bebas selama masa kompetisi berlangsung.
-
 Catatan:
 - PERHATIAN PENTING: Jangan menggunakan aplikasi GreenLytics dalam keadaan perangkat mode gelap (Dark Mode). Desain UI dan palet warna dioptimalkan secara khusus untuk mode terang (Light Mode). Penggunaan mode gelap akan membuat warna elemen bertabrakan dan mengurangi kenyamanan visual secara drastis.
 - Data identitas dan koordinat pengguna disimpan dengan aman dan murni difokuskan untuk analisis makro jejak karbon lingkungan, bukan untuk melacak privasi pergerakan individu.
