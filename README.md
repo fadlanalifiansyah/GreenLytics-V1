@@ -8,7 +8,7 @@ GreenLytics adalah aplikasi pelacak jejak karbon (carbon footprint tracker) berb
 Cara Penggunaan:
 Aplikasi ini didistribusikan secara langsung melalui file mentahan Android (.apk). Berikut adalah langkah-langkah instalasinya:
 1. Unduh file GreenLytics.apk melalui tautan Google Drive berikut:
-   [Link](https://drive.google.com/file/d/1IYcYDJo30OQKke3IHhKqFdaSzPnsUJf_/view?usp=sharing)
+   [Download Aplikasi GreenLytics Disini](https://drive.google.com/file/d/1IYcYDJo30OQKke3IHhKqFdaSzPnsUJf_/view?usp=sharing)
 2. Setelah proses pengunduhan selesai, buka folder "Downloads" atau "Unduhan" melalui aplikasi File Manager di perangkat Android Anda, lalu cari dan ketuk file APK tersebut.
 3. Jika perangkat memunculkan peringatan keamanan, ketuk opsi "Pengaturan" pada kotak dialog yang muncul, lalu aktifkan izin "Install from Unknown Sources" (Instal dari sumber tidak dikenal) untuk browser atau File Manager yang Anda gunakan.
 4. Ketuk tombol Instal dan tunggu hingga proses pemasangan aplikasi selesai.
