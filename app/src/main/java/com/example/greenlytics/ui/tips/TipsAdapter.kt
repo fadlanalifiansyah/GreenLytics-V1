@@ -24,7 +24,7 @@ class TipsAdapter(
                 "Transportasi" -> android.R.drawable.ic_menu_directions
                 "Listrik" -> android.R.drawable.ic_lock_idle_charging
                 "Sampah" -> android.R.drawable.ic_menu_delete
-                "Belanja" -> android.R.drawable.ic_menu_gallery // Sesuaikan jika ada ikon keranjang belanja
+                "Belanja" -> R.drawable.ic_shop
                 else -> android.R.drawable.ic_menu_help
             }
             binding.ivTipIcon.setImageResource(iconRes)

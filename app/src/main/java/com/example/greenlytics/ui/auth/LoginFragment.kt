@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.greenlytics.R
 import com.example.greenlytics.data.remote.GoogleAuth
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.FirebaseAuth // <-- TAMBAHKAN IMPORT INI
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 
@@ -31,6 +32,13 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            // Jika user sudah login sebelumnya, langsung lempar ke Dashboard!
+            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+            return // Hentikan eksekusi kode di bawahnya agar tidak berbenturan
+        }
 
         setupObservers()
 

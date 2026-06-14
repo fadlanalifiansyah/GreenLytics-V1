@@ -30,9 +30,6 @@ class DashboardViewModel @Inject constructor(
     private val _electricTotal = MutableLiveData(0.0)
     val electricTotal: LiveData<Double> = _electricTotal
 
-    private val _foodTotal = MutableLiveData(0.0)
-    val foodTotal: LiveData<Double> = _foodTotal
-
     private val _shoppingTotal = MutableLiveData(0.0)
     val shoppingTotal: LiveData<Double> = _shoppingTotal
 
@@ -95,12 +92,12 @@ class DashboardViewModel @Inject constructor(
                 dateFormat.format(java.util.Date(it.tanggalInput)) == todayString
             }
 
+            // Disesuaikan agar semua kategori Belanja masuk ke sini
             _todayTotal.value = todayData.sumOf { it.emisiKarbon }
             _transportTotal.value = todayData.filter { it.kategori == "Transportasi" }.sumOf { it.emisiKarbon }
             _electricTotal.value = todayData.filter { it.kategori == "Listrik" }.sumOf { it.emisiKarbon }
             _wasteTotal.value = todayData.filter { it.kategori == "Sampah" }.sumOf { it.emisiKarbon }
-            _foodTotal.value = todayData.filter { it.subKategori == "MAKANAN_MINUMAN" }.sumOf { it.emisiKarbon }
-            _shoppingTotal.value = todayData.filter { it.kategori == "Belanja" && it.subKategori != "MAKANAN_MINUMAN" }.sumOf { it.emisiKarbon }
+            _shoppingTotal.value = todayData.filter { it.kategori == "Belanja" }.sumOf { it.emisiKarbon }
 
             val displayFormat = SimpleDateFormat("EEE", Locale("id", "ID"))
             val chartEntries = mutableListOf<Pair<String, Float>>()

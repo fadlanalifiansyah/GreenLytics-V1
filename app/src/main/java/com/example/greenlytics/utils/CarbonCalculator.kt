@@ -56,6 +56,30 @@ object CarbonCalculator {
     }
 
     // ==========================================
+    // 3. BELANJA (Spend-Based Method USEEIO)
+    // ==========================================
+    // kurs USD ke IDR 17.779,30
+    private const val KURS_USD_TO_IDR = 17779.3
+
+    enum class ShoppingCategory(val factorUsd: Double) {
+        MAKANAN_MINUMAN(0.755),
+        FASHION(0.155),
+        ELEKTRONIK(0.078),
+        PERABOT(0.145),
+        KECANTIKAN(0.130),
+        HIBURAN(0.114)
+    }
+
+    /**
+     * Hitung emisi dari pengeluaran belanja (Rupiah).
+     * Otomatis dikonversi ke USD di dalam fungsi.
+     */
+    fun calculateShopping(spendRp: Double, category: ShoppingCategory): Double {
+        val spendUsd = spendRp / KURS_USD_TO_IDR
+        return spendUsd * category.factorUsd
+    }
+
+    // ==========================================
     // 4. SAMPAH (IPCC First Order Decay) https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/5_Volume5/IPCC_Waste_Model.xls
     // ==========================================
     enum class WasteType(val factor: Double) {

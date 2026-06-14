@@ -61,6 +61,11 @@ class TipsFragment : Fragment(R.layout.fragment_tips) {
             updateFilterUI(binding.btnFilterSampah)
             filterByCategory("Sampah")
         }
+
+        binding.btnFilterBelanja.setOnClickListener {
+            updateFilterUI(binding.btnFilterBelanja)
+            filterByCategory("Belanja")
+        }
     }
 
     private fun filterByCategory(category: String) {
@@ -71,8 +76,13 @@ class TipsFragment : Fragment(R.layout.fragment_tips) {
     }
 
     private fun updateFilterUI(activeView: View) {
-        val filters = listOf(binding.btnFilterSemua, binding.btnFilterTransport,
-            binding.btnFilterListrik, binding.btnFilterSampah)
+        val filters = listOf(
+            binding.btnFilterSemua,
+            binding.btnFilterTransport,
+            binding.btnFilterListrik,
+            binding.btnFilterSampah,
+            binding.btnFilterBelanja
+        )
 
         filters.forEach {
             it.setBackgroundResource(R.drawable.bg_chip_inactive)

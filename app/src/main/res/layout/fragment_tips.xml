@@ -124,7 +124,6 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <!-- REVISI: Tambahkan ID agar bisa diubah lewat ViewModel -->
                         <TextView
                             android:id="@+id/tvPotentialSaving"
                             android:layout_width="wrap_content"
@@ -160,7 +159,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- REVISI: Tambahkan ID btnFilterSemua -->
                 <TextView
                     android:id="@+id/btnFilterSemua"
                     android:layout_width="wrap_content"
@@ -171,11 +169,9 @@
                     android:paddingVertical="10dp"
                     android:text="Semua"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"/>
 
-                <!-- REVISI: Tambahkan ID btnFilterTransport -->
                 <TextView
                     android:id="@+id/btnFilterTransport"
                     android:layout_width="wrap_content"
@@ -189,7 +185,6 @@
                     android:clickable="true"
                     android:focusable="true"/>
 
-                <!-- REVISI: Tambahkan ID btnFilterListrik -->
                 <TextView
                     android:id="@+id/btnFilterListrik"
                     android:layout_width="wrap_content"
@@ -207,6 +202,7 @@
                     android:id="@+id/btnFilterSampah"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
                     android:background="@drawable/bg_chip_inactive"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
@@ -214,6 +210,20 @@
                     android:textColor="#44474E"
                     android:clickable="true"
                     android:focusable="true"/>
+
+                <!-- TAMBAHAN: Tombol Filter Belanja -->
+                <TextView
+                    android:id="@+id/btnFilterBelanja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_chip_inactive"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Belanja"
+                    android:textColor="#44474E"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
             </LinearLayout>
         </HorizontalScrollView>
 

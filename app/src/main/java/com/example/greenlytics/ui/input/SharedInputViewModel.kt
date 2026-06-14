@@ -43,6 +43,16 @@ class SharedInputViewModel @Inject constructor(
     }
 
     /**
+     * Fungsi Simpan untuk Belanja
+     */
+    fun saveShopping(spendRp: Double, category: CarbonCalculator.ShoppingCategory, cityName: String? = null, lat: Double? = null, lon: Double? = null) {
+        viewModelScope.launch {
+            val result = CarbonCalculator.calculateShopping(spendRp, category)
+            insertToDatabase("Belanja", category.name, spendRp, "Rp", result, cityName, lat, lon)
+        }
+    }
+    
+    /**
      * Fungsi Private untuk membungkus data ke dalam EmissionEntity dan menyimpannya ke Database
      */
     private suspend fun insertToDatabase(

@@ -21,7 +21,13 @@ object TipsProvider {
         // SAMPAH
         TipsModel(8, "Sampah", "ORGANIK", "Mulai Membuat Kompos", "Sampah makanan di TPA hasilkan gas metana berbahaya.", "KLHK", "Sulit"),
         TipsModel(9, "Sampah", "ANORGANIK", "Setor ke Bank Sampah", "Plastik butuh ratusan tahun terurai. Jangan dibakar!", "SWI", "Sedang"),
-        TipsModel(10, "Sampah", "CAMPURAN", "Mulailah Memilah Sampah", "Sampah tercampur sulit diproses. Pisahkan minimal dua wadah.", "SIPSN", "Sedang")
+        TipsModel(10, "Sampah", "CAMPURAN", "Mulailah Memilah Sampah", "Sampah tercampur sulit diproses. Pisahkan minimal dua wadah.", "SIPSN", "Sedang"),
+
+        // BELANJA (Tambahan Baru)
+        TipsModel(11, "Belanja", "FASHION", "Kurangi Fast Fashion", "Industri pakaian menyumbang emisi besar. Coba thrifting atau beli baju berkualitas yang awet.", "UNEP", "Sedang"),
+        TipsModel(12, "Belanja", "MAKANAN_MINUMAN", "Pilih Produk Lokal", "Makanan impor punya jejak karbon transportasi yang tinggi. Beli di pasar lokal!", "FAO", "Mudah"),
+        TipsModel(13, "Belanja", "ELEKTRONIK", "Cek Label Hemat Energi", "Pilih perangkat elektronik dengan rating hemat energi untuk menekan emisi jangka panjang.", "ESDM", "Sedang"),
+        TipsModel(14, "Belanja", "General", "Bawa Tas Belanja Kain", "Kurangi penggunaan kantong plastik sekali pakai dengan selalu membawa tas kain.", "KLHK", "Mudah")
     )
 
     fun getRelevantTips(emissionsToday: List<EmissionEntity>): List<TipsModel> {
@@ -39,6 +45,17 @@ object TipsProvider {
 
         val totalListrik = emissionsToday.filter { it.kategori.equals("Listrik", true) }.sumOf { it.emisiKarbon }
 
+        // Variabel tambahan untuk Belanja
+        val emisiFashion = emissionsToday.filter { it.subKategori.equals("FASHION", true) }.sumOf { it.emisiKarbon }
+        val emisiMakanan = emissionsToday.filter { it.subKategori.equals("MAKANAN_MINUMAN", true) }.sumOf { it.emisiKarbon }
+        val emisiElektronik = emissionsToday.filter { it.subKategori.equals("ELEKTRONIK", true) }.sumOf { it.emisiKarbon }
+        val totalBelanjaLainnya = emissionsToday.filter {
+            it.kategori.equals("Belanja", true) &&
+                    !it.subKategori.equals("FASHION", true) &&
+                    !it.subKategori.equals("MAKANAN_MINUMAN", true) &&
+                    !it.subKategori.equals("ELEKTRONIK", true)
+        }.sumOf { it.emisiKarbon }
+
         // 2. EVALUASI SATU PER SATU (Bisa muncul banyak di layar)
 
         // Transportasi > 5.0 kg
@@ -51,6 +68,12 @@ object TipsProvider {
         if (emisiOrganik > 5.0) allTips.find { it.subKategori == "ORGANIK" }?.let { resultTips.add(it) }
         if (emisiAnorganik > 5.0) allTips.find { it.subKategori == "ANORGANIK" }?.let { resultTips.add(it) }
         if (emisiCampuran > 5.0) allTips.find { it.subKategori == "CAMPURAN" }?.let { resultTips.add(it) }
+
+        // Belanja > 5.0 kg (Tambahan Baru)
+        if (emisiFashion > 5.0) allTips.find { it.subKategori == "FASHION" }?.let { resultTips.add(it) }
+        if (emisiMakanan > 5.0) allTips.find { it.subKategori == "MAKANAN_MINUMAN" }?.let { resultTips.add(it) }
+        if (emisiElektronik > 5.0) allTips.find { it.subKategori == "ELEKTRONIK" }?.let { resultTips.add(it) }
+        if (totalBelanjaLainnya > 5.0) allTips.find { it.kategori == "Belanja" && it.subKategori == "General" }?.let { resultTips.add(it) }
 
         // Listrik > 5.0 kg
         if (totalListrik > 5.0) {

@@ -28,7 +28,6 @@ class DashboardFragment : Fragment() {
 
     private val viewModel: DashboardViewModel by viewModels()
 
-    // TAMBAHKAN INI: Memanggil SharedPreferences yang sama dengan Profil
     private val sharedPrefs by lazy {
         requireContext().getSharedPreferences("GreenLyticsPrefs", android.content.Context.MODE_PRIVATE)
     }
@@ -65,9 +64,13 @@ class DashboardFragment : Fragment() {
         val tvEmisiValue = view.findViewById<TextView>(R.id.tvEmisiValue)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBarEmission)
         val tvLimit = view.findViewById<TextView>(R.id.tvLimit)
+
+        // Panggil semua TextView dari ringkasan emisi
         val tvValueTransport = view.findViewById<TextView>(R.id.tvValueTransport)
         val tvValueElectric = view.findViewById<TextView>(R.id.tvValueElectric)
+        val tvValueShopping = view.findViewById<TextView>(R.id.tvValueShopping) // Tambahan untuk Belanja
         val tvValueWaste = view.findViewById<TextView>(R.id.tvValueWaste)
+
         val chart = view.findViewById<CombinedChart>(R.id.combinedChart)
         val tvStreakCount = view.findViewById<TextView>(R.id.tvStreakCount)
 
@@ -77,20 +80,17 @@ class DashboardFragment : Fragment() {
         viewModel.todayTotal.observe(viewLifecycleOwner) { total ->
             tvEmisiValue.text = String.format("%.1f", total)
 
-            // Ambil data target dari SharedPreferences Profil
             val targetString = sharedPrefs.getString("TARGET_EMISI", "8") ?: "8"
             val targetEmisi = targetString.toDoubleOrNull() ?: 8.0
 
-            // UPDATE TEKS BATAS SESUAI TARGET PROFIL
             tvLimit.text = "Batas: $targetString kg"
-
-            // Update Progress Bar
             progressBar.progress = ((total / targetEmisi) * 100).toInt().coerceAtMost(100)
         }
 
-        // 2. Kategori
+        // 2. Kategori (Observer Ditambahkan untuk Belanja)
         viewModel.transportTotal.observe(viewLifecycleOwner) { tvValueTransport.text = String.format("%.1f kg", it) }
         viewModel.electricTotal.observe(viewLifecycleOwner) { tvValueElectric.text = String.format("%.1f kg", it) }
+        viewModel.shoppingTotal.observe(viewLifecycleOwner) { tvValueShopping.text = String.format("%.1f kg", it) }
         viewModel.wasteTotal.observe(viewLifecycleOwner) { tvValueWaste.text = String.format("%.1f kg", it) }
 
         // 3. Setup Grafik Combined
