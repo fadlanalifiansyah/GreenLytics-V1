@@ -3,7 +3,6 @@ package com.example.greenlytics.di
 import android.content.Context
 import com.example.greenlytics.data.local.EmissionDao
 import com.example.greenlytics.data.local.GreenLyticsDatabase
-import com.example.greenlytics.data.repository.EmissionRepo
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -31,11 +30,5 @@ object AppModule {
     @Singleton
     fun provideFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
-    }
-
-    @Provides
-    @Singleton
-    fun provideEmissionRepo(dao: EmissionDao, firestore: FirebaseFirestore): EmissionRepo {
-        return EmissionRepo(dao, firestore)
     }
 }

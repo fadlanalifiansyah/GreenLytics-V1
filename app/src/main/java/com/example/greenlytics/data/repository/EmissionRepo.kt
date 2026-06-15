@@ -1,5 +1,6 @@
 package com.example.greenlytics.data.repository
 
+import android.util.Log
 import com.example.greenlytics.data.local.EmissionDao
 import com.example.greenlytics.data.local.EmissionEntity
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +30,9 @@ class EmissionRepo @Inject constructor(
     }
 
     suspend fun getAllEmissions(): List<EmissionEntity> {
-        return dao.getAllEmissions()
+        val data = dao.getAllEmissions()
+        Log.d("EmissionRepo", "Data diambil dari Room: ${data.size} item")
+        return data
     }
 
     suspend fun deleteEmission(id: Int) {

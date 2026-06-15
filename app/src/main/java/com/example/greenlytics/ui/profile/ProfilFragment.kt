@@ -64,9 +64,33 @@ class ProfilFragment : Fragment() {
     private fun setupListeners() {
         // 1. SWITCH NOTIFIKASI
         binding.switchNotif.setOnCheckedChangeListener { _, isChecked ->
+            // Simpan ke memori lokal
             sharedPrefs.edit().putBoolean("NOTIF_ON", isChecked).apply()
-            val msg = if (isChecked) "Notifikasi diaktifkan" else "Notifikasi dimatikan"
-            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+
+            // Panggil WorkManager
+            val workManager = androidx.work.WorkManager.getInstance(requireContext())
+
+            if (isChecked) {
+                // JIKA DIHIDUPKAN: Daftarkan ulang WorkManager
+                val constraints = androidx.work.Constraints.Builder()
+                    .setRequiredNetworkType(androidx.work.NetworkType.NOT_REQUIRED)
+                    .build()
+
+                val dailyWorkRequest = androidx.work.PeriodicWorkRequestBuilder<com.example.greenlytics.workers.ReminderWorker>(24, java.util.concurrent.TimeUnit.HOURS)
+                    .setConstraints(constraints)
+                    .build()
+
+                workManager.enqueueUniquePeriodicWork(
+                    "DailyReminderWork",
+                    androidx.work.ExistingPeriodicWorkPolicy.REPLACE, // Gunakan REPLACE agar timer 24 jam diulang dari sekarang
+                    dailyWorkRequest
+                )
+                Toast.makeText(requireContext(), "Notifikasi pengingat diaktifkan", Toast.LENGTH_SHORT).show()
+            } else {
+                // JIKA DIMATIKAN: Batalkan jadwal WorkManager secara paksa
+                workManager.cancelUniqueWork("DailyReminderWork")
+                Toast.makeText(requireContext(), "Notifikasi pengingat dimatikan", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // 2. KLIK TARGET EMISI
